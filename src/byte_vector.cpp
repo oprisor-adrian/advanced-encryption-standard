@@ -1,6 +1,7 @@
 #include "../include/byte_vector.h"
 
 #include <algorithm>
+#include <iostream>
 #include <iomanip>
 #include <stdexcept>
 #include <regex>
@@ -46,19 +47,19 @@ ByteVector& ByteVector::operator=(const std::string& hex_string) {
   return *this;
 }
 
-const std::byte& ByteVector::operator[](const std::size_t index) const {
-  if (index > byte_vector_.size() || index < 0) {
-    throw std::out_of_range("Index " + std::to_string(index) + " is out of range.");
+  const std::byte ByteVector::operator[](const std::size_t index) const {
+    if (index > byte_vector_.size() || index < 0) {
+      throw std::out_of_range("Index " + std::to_string(index) + " is out of range.");
+    }
+    return byte_vector_[index];
   }
-  return byte_vector_[index];
-}
 
-std::byte& ByteVector::operator[](const std::size_t index) {
-  if (index > byte_vector_.size() || index < 0) {
-    throw std::out_of_range("Index " + std::to_string(index) + " is out of range.");
+  std::byte& ByteVector::operator[](const std::size_t index) {
+    if (index > byte_vector_.size() || index < 0) {
+      throw std::out_of_range("Index " + std::to_string(index) + " is out of range.");
+    }
+    return byte_vector_[index];
   }
-  return byte_vector_[index];
-}
 
 ByteVector ByteVector::operator[]
     (const std::pair<std::size_t, std::size_t> range) const {
@@ -74,25 +75,27 @@ ByteVector ByteVector::operator[]
   }
   std::vector<std::byte> sub_vec(byte_vector_.begin()+range.first,
                                  byte_vector_.begin()+range.second+1);
-  return ByteVector(sub_vec);
+  return ByteVector(sub_vec); 
 }
 
-ByteVector& ByteVector::operator^(const std::byte byte) {
-  std::for_each(byte_vector_.begin(), byte_vector_.end(), [byte](auto& value){
+ByteVector ByteVector::operator^(const std::byte byte) {
+  std::vector<std::byte> result(byte_vector_);
+  std::for_each(result.begin(), result.end(), [byte](auto& value){
     value ^= byte;
   });
-  return *this;
+  return ByteVector(result);
 }
 
-ByteVector& ByteVector::operator^(const ByteVector& bytes) {
+ByteVector ByteVector::operator^(const ByteVector& bytes) const {
   if (byte_vector_.size() != bytes.GetSize()) {
     throw std::runtime_error("In order to perform XOR operation, the vectros \
                               must have the same length.");
   }
-  for (std::size_t index=0; index<byte_vector_.size(); index++) {
-    byte_vector_[index] ^= bytes[index];
+  ByteVector result(byte_vector_);
+  for (std::size_t index=0; index<result.GetSize(); index++) {
+    result[index] ^= bytes[index];
   }
-  return *this;
+  return result;
 }
 
 }  // namespace BlockCipher

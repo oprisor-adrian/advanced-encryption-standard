@@ -80,8 +80,7 @@ TEST_F(ByteVectorTest, TestBitwiseWithByte) {
   std::byte byte = std::byte(0x0f);
   BlockCipher::ByteVector bv1("0001");
   ::testing::internal::CaptureStdout();
-  bv1 ^ byte;
-  std::cout << bv1;
+  std::cout << (bv1 ^ byte);
   std::string output = ::testing::internal::GetCapturedStdout();
   std::string expected_output = "0f0e";
   EXPECT_STREQ(output.c_str(), expected_output.c_str());

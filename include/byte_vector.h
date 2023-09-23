@@ -41,15 +41,15 @@ class ByteVector {
     // Creates the vector of bytes from a hexadecimal values passed as string.
     ByteVector& operator=(const std::string& hex_string);
     // Returns the byte from specific position.
-    const std::byte& operator[](const std::size_t index) const;
+    const std::byte operator[](const std::size_t index) const;
     // Acces the byte from specific position.
     std::byte& operator[](const std::size_t index);
     // Returns a sub vector of bytes between two positions.
     ByteVector operator[](const std::pair<std::size_t, std::size_t> rande) const; 
     // Performs bitwise operation between the vector and a byte.
-    ByteVector& operator^(const std::byte byte);
+    ByteVector operator^(const std::byte byte);
     // Performs bitwise operation between two vectors of same size.
-    ByteVector& operator^(const ByteVector& bytes);
+    ByteVector operator^(const ByteVector& bytes) const;
     // Gets the size of the vector of bytes.
     const std::size_t GetSize() const { return byte_vector_.size(); }
   private:
