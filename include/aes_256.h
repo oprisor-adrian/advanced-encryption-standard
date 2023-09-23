@@ -32,9 +32,9 @@ class AES256 {
     void ShiftRows();
     void MixColumns();
     // Applies the s-box on 4 bytes and produce an output word.
-    ByteVector& SubWord(const ByteVector& word);
+    ByteVector SubWord(const ByteVector& word);
     // Performs a cyclic permutation on a 4 byte word.
-    const ByteVector& RotWord(const ByteVector& word);
+    ByteVector RotWord(const ByteVector& word);
     // Stores the keys derived using the Key Expansion routine.
     std::vector<ByteVector> keys_;
     // Stores the intermediare results of the cipher.
