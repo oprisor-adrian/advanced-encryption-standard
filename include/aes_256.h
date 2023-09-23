@@ -22,6 +22,8 @@ class AES256 {
     AES256(const ByteVector& input, const ByteVector& key);
     // Encrypts the input using the Rijndael block cipher algorithm.
     const ByteVector Encrypt();
+    // Gets keys.
+    const std::vector<ByteVector>& GetKeys() const { return keys_; }
   private:
     // Derives the input 256-bits key into Round Keys.
     void KeyExpansion(const ByteVector& key);

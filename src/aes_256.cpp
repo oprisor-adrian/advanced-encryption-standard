@@ -1,6 +1,7 @@
 #include "../include/aes_256.h"
 
 #include <algorithm>
+#include <iostream>
 #include <stdexcept>
 #include <string>
 
@@ -23,8 +24,16 @@ namespace {
                           70 3E B5 66 48 03 F6 0E 61 35 57 B9 86 C1 1D 9E \
                           E1 F8 98 11 69 D9 8E 94 9B 1E 87 E9 CE 55 28 DF \
                           8C A1 89 0D BF E6 42 68 41 99 2D 0F B0 54 BB 16");
-  const ByteVector round_constant("01 02 04 08 10 \
-                                   20 40 80 1B 36");
+  const std::vector<ByteVector> round_constant = {{"01000000"},
+                                                  {"02000000"},
+                                                  {"04000000"},
+                                                  {"08000000"},
+                                                  {"10000000"},
+                                                  {"20000000"},
+                                                  {"40000000"},
+                                                  {"80000000"},
+                                                  {"1b000000"},
+                                                  {"36000000"}};
 }  // namespace
 
 AES256::AES256(const ByteVector& input, const ByteVector& key) {
@@ -51,24 +60,21 @@ void AES256::KeyExpansion(const ByteVector& key) {
   }
   // Generates the round keys.
   ByteVector temp;
-  for (std::size_t index=8; index>60; index++) {
+  for (std::size_t index=8; index<60; index++) {
     temp = keys_[index-1];
-    if (index%4==0) {
-      temp = SubWord(RotWord(temp)) ^ round_constant[index/8];
-      continue;
-    }
-    if (index%4==4) {
+    if (index%8==0) {
+      temp = SubWord(RotWord(temp)) ^ round_constant[index/8-1];
+    } else if (index%8==4) {
       temp = SubWord(temp);
-      continue;
     }
-    keys_.push_back(keys_[index-8]^temp);
+    keys_.push_back(temp^keys_[index-8]);
   }
 }
 
 ByteVector AES256::SubWord(const ByteVector& word) {
-  ByteVector output_word;
+  std::vector<std::byte> output_word;
   for (std::size_t index=0; index<4; index++) {
-    output_word[index] = s_box[static_cast<int>(word[index])];
+    output_word.push_back(s_box[static_cast<int>(word[index])]);
   }
   return output_word;
 }
