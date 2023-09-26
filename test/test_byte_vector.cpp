@@ -96,3 +96,14 @@ TEST_F(ByteVectorTest, TestBitwiseVectors) {
   std::string expected_output = "0f0d";
   EXPECT_STREQ(output.c_str(), expected_output.c_str());
 }
+
+TEST_F(ByteVectorTest, TestBitwiseCurrentVector) {
+  std::byte byte = std::byte(0x0f);
+  BlockCipher::ByteVector bv1("0001");
+  bv1 ^= byte;
+  ::testing::internal::CaptureStdout();
+  std::cout << bv1;
+  std::string output = ::testing::internal::GetCapturedStdout();
+  std::string expected_output = "0f0e";
+  EXPECT_STREQ(output.c_str(), expected_output.c_str());
+}

@@ -47,9 +47,11 @@ class ByteVector {
     // Returns a sub vector of bytes between two positions.
     ByteVector operator[](const std::pair<std::size_t, std::size_t> rande) const; 
     // Performs bitwise operation between the vector and a byte.
-    ByteVector operator^(const std::byte byte);
+    ByteVector operator^(const std::byte byte) const;
     // Performs bitwise operation between two vectors of same size.
     ByteVector operator^(const ByteVector& bytes) const;
+    // Performs bitwise operation on current vector.
+    ByteVector& operator^=(const std::byte byte);
     // Gets the size of the vector of bytes.
     const std::size_t GetSize() const { return byte_vector_.size(); }
   private:

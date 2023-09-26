@@ -78,7 +78,7 @@ ByteVector ByteVector::operator[]
   return ByteVector(sub_vec); 
 }
 
-ByteVector ByteVector::operator^(const std::byte byte) {
+ByteVector ByteVector::operator^(const std::byte byte) const {
   std::vector<std::byte> result(byte_vector_);
   std::for_each(result.begin(), result.end(), [byte](auto& value){
     value ^= byte;
@@ -96,6 +96,13 @@ ByteVector ByteVector::operator^(const ByteVector& bytes) const {
     result[index] ^= bytes[index];
   }
   return result;
+}
+
+ByteVector& ByteVector::operator^=(const std::byte byte) {
+  std::for_each(byte_vector_.begin(), byte_vector_.end(), [byte](auto& value) {
+    value ^= byte;
+  });
+  return *this;
 }
 
 }  // namespace BlockCipher
