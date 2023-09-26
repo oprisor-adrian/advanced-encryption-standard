@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <iomanip>
 #include <stdexcept>
 #include <string>
 
@@ -34,6 +35,7 @@ namespace {
                                                   {"80000000"},
                                                   {"1b000000"},
                                                   {"36000000"}};
+  const ByteVector n_multi("0203");
 }  // namespace
 
 AES256::AES256(const ByteVector& input, const ByteVector& key) {
@@ -50,6 +52,20 @@ AES256::AES256(const ByteVector& input, const ByteVector& key) {
   // Initializes the state and derives the Round Keys.
   state_ = input;
   KeyExpansion(key);
+}
+
+const ByteVector AES256::Encrypt() {
+  AddRoundKey(0);
+  for (std::size_t index=1; index<=13; index++) {
+    SubByte();
+    ShiftCols();
+    MixColumns();
+    AddRoundKey(index);
+  }
+  SubByte();
+  ShiftCols();
+  AddRoundKey(14);
+  return state_;
 }
 
 void AES256::KeyExpansion(const ByteVector& key) {
@@ -71,6 +87,73 @@ void AES256::KeyExpansion(const ByteVector& key) {
   }
 }
 
+void AES256::AddRoundKey(const std::size_t round) {
+  std::vector<ByteVector> keys_schedule(keys_.begin()+(round*4), 
+                                        keys_.begin()+(round*4)+4);
+  // Add keys schedule to each column of the state.
+  for (std::size_t windex=0; windex<4; windex++) {
+    for (std::size_t bindex=0; bindex<4; bindex++) {
+      state_[windex*4+bindex] ^= keys_schedule[windex][bindex];
+    }
+  }
+}
+
+void AES256::SubByte() {
+  for(std::size_t index=0; index<state_.GetSize(); index++) {
+    state_[index] = s_box[static_cast<int>(state_[index])];
+  }
+}
+
+void AES256::ShiftCols() {
+  for (std::size_t cindex=1; cindex<4; cindex++) {
+    for (std::size_t index=0; index<cindex; index++) {
+      for (std::size_t rindex=0; rindex<3; rindex++) {
+        std::swap(state_[rindex*4+cindex], state_[(rindex+1)*4+cindex]);
+      }
+    }
+  }
+}
+
+void AES256::MixColumns() {
+  for (std::size_t index=0; index<state_.GetSize(); index+=4) {
+    ByteVector temp = state_[{index, index+3}];
+    state_[index] = GFMultiplication(n_multi[0], temp[0]) ^
+                    GFMultiplication(n_multi[1], temp[1]) ^ 
+                    temp[2] ^ temp[3];
+    state_[index+1] = temp[0] ^
+                      GFMultiplication(n_multi[0], temp[1]) ^
+                      GFMultiplication(n_multi[1], temp[2]) ^
+                      temp[3];
+    state_[index+2] = temp[0] ^
+                      temp[1] ^
+                      GFMultiplication(n_multi[0], temp[2]) ^
+                      GFMultiplication(n_multi[1],  temp[3]);
+    state_[index+3] = GFMultiplication(n_multi[1], temp[0]) ^
+                      temp[1] ^ 
+                      temp[2] ^
+                      GFMultiplication(n_multi[0], temp[3]);
+  }
+}
+
+std::byte AES256::GFMultiplication(std::byte byte_1, std::byte byte_2) {
+  uint8_t result = 0;
+  uint8_t b1 = static_cast<uint8_t>(byte_1);
+  uint8_t b2 = static_cast<uint8_t>(byte_2);
+  while (b2 > 0) {
+    if (b2 & 1) {
+      result ^= b1;
+    }
+    if (b1 & 0x80) {
+      b1 = (b1 << 1) ^ 0x1b;
+    } else {
+      b1 <<= 1;
+    }
+    b2 >>= 1;
+  }
+  return static_cast<std::byte>(result);
+}
+
+
 ByteVector AES256::SubWord(const ByteVector& word) {
   std::vector<std::byte> output_word;
   for (std::size_t index=0; index<4; index++) {
@@ -81,7 +164,7 @@ ByteVector AES256::SubWord(const ByteVector& word) {
 
 ByteVector AES256::RotWord(const ByteVector& word) {
   ByteVector output_word = word;
-  for (std::size_t index=0; index<4-1; index++) {
+  for (std::size_t index=0; index<3; index++) {
     std::swap(output_word[index], output_word[index+1]);
   }
   return output_word;

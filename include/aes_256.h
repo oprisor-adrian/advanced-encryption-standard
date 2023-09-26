@@ -22,17 +22,20 @@ class AES256 {
     AES256(const ByteVector& input, const ByteVector& key);
     // Encrypts the input using the Rijndael block cipher algorithm.
     const ByteVector Encrypt();
-    // Gets keys.
-    const std::vector<ByteVector>& GetKeys() const { return keys_; }
   private:
     // Derives the input 256-bits key into Round Keys.
     void KeyExpansion(const ByteVector& key);
     // Adds the key to the state using XOR operations.
     void AddRoundKey(const std::size_t round);
-    // Applies the s-box to the state.
+    // Substitute the state bytes with s-box bytes.
     void SubByte();
-    void ShiftRows();
+    // Applies a cyclically shift of the last three columns.
+    // Equivalent of ShiftRows().
+    void ShiftCols();
+    // Mix columns of the state.
     void MixColumns();
+    // Performs multiplication of two byte by GF.
+    std::byte GFMultiplication(std::byte byte_1, std::byte byte_2);
     // Applies the s-box on 4 bytes and produce an output word.
     ByteVector SubWord(const ByteVector& word);
     // Performs a cyclic permutation on a 4 byte word.
