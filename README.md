@@ -10,4 +10,4 @@ output = aes256.Encrypt();
 ```
 
 #### Doc
-[Advanced Encryption Standard (AES)](extension://efaidnbmnnnibpcajpcglclefindmkaj/https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.197-upd1.pdf)
+[Advanced Encryption Standard (AES)](https://doi.org/10.6028/NIST.FIPS.197-upd1)
