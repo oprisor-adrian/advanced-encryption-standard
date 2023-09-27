@@ -153,7 +153,6 @@ std::byte AES256::GFMultiplication(std::byte byte_1, std::byte byte_2) {
   return static_cast<std::byte>(result);
 }
 
-
 ByteVector AES256::SubWord(const ByteVector& word) {
   std::vector<std::byte> output_word;
   for (std::size_t index=0; index<4; index++) {
