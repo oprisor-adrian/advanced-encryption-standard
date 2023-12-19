@@ -6,11 +6,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED true)
 
 add_library(lib_${CMAKE_PROJECT_NAME}
   src/byte.cpp
+  src/word.cpp
 )
 
 add_executable(${CMAKE_PROJECT_NAME}
   byte_utils.cpp
   src/byte.cpp
+  src/word.cpp
 )
 
 enable_testing()
