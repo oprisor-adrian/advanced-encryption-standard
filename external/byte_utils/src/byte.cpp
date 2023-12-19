@@ -1,6 +1,8 @@
 #include "../include/byte.h"
 
+#include <iomanip>
 #include <exception>
+#include <sstream>
 
 namespace ByteUtils {
 
@@ -80,6 +82,12 @@ const Byte Byte::operator*(Byte byte2) {
     byte1 <<= 1;
   }
   return result ;
+}
+
+const std::string Byte::ToHex() const {
+  std::stringstream stream;
+  stream << std::hex << std::setw(2) << std::setfill('0') << byte_.to_ulong();
+  return stream.str();
 }
 
 }  // namespace ByteUtils

@@ -45,6 +45,7 @@ class Byte {
     // Equivalent with `byte > 0`.
     operator bool() const { return byte_.any(); };
     inline const char ToAscii() const { return byte_.to_ulong(); }
+    const std::string ToHex() const;
     inline const std::bitset<8> GetByte() const { return byte_; }
   private:
     std::bitset<8> byte_;

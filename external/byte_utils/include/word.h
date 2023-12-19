@@ -32,6 +32,7 @@ class Word {
     const Byte operator[](const std::size_t pos) const;
     // Acces the byte from the position `pos`.
     Byte& operator[](const std::size_t pos);
+    const std::string ToHex() const;
     inline const std::array<Byte, 4> GetWord() const { return word_; }
   private:
     std::array<Byte, 4> word_;

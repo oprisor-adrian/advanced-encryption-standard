@@ -1,5 +1,6 @@
 #include "../include/word.h"
 
+#include <sstream>
 #include <stdexcept>
 
 namespace ByteUtils {
@@ -49,6 +50,14 @@ Byte& Word::operator[](const std::size_t pos) {
     throw std::out_of_range("The position `pos` is out of range.");
   }
   return word_[pos];
+}
+
+const std::string Word::ToHex() const {
+  std::stringstream stream;
+  for (const auto& byte : word_) {
+    stream << byte.ToHex();
+  }
+  return stream.str();
 }
 
 }  // namespace ByteUtils

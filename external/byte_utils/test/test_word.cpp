@@ -57,3 +57,11 @@ TEST(TestWord, TestAccesByteOPerator) {
   std::string expected_output = "00001010000010100000101010111100";
   EXPECT_STREQ(output.c_str(), expected_output.c_str());
 }
+
+TEST(TestWord, TestToHex) {
+  ByteUtils::Word word("0aff0abc");
+  word[3] = ByteUtils::Byte(0x0a);
+  std::string output = word.ToHex();
+  std::string expected_output = "0aff0a0a";
+  EXPECT_STREQ(output.c_str(), expected_output.c_str());
+}

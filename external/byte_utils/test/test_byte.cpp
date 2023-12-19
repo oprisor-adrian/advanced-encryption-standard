@@ -62,3 +62,10 @@ TEST (TestByte, TestGFMultiplication) {
   std::bitset<8> expected_output{"11000001"};
   EXPECT_EQ(output, expected_output);
 }
+
+TEST(TestByte, TestToHex) {
+  ByteUtils::Byte byte("11111111", 2);
+  std::string output = byte.ToHex();
+  std::string expected_output = "ff";
+  EXPECT_STREQ(output.c_str(), expected_output.c_str());
+}
