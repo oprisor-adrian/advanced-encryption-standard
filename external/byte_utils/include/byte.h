@@ -31,19 +31,20 @@ class Byte {
     const Byte operator|(const Byte data) const;
     // Performs bitwise `XOR` operation between two `Byte` objects.
     const Byte operator^(const Byte data) const;
-    // Performs bitwise `XOR` to the current `Bytes` object.
+    // Performs bitwise `XOR` operation between two `Byte` objects.
     Byte& operator^=(const Byte data);
     // Performs left shift with `n_pos` positions.
     const Byte operator<< (const std::size_t n_pos) const;
     // Performs left shift on current `Byte` object with `n_pos` positions.
-    Byte& operator<<= (const std::size_t n_pos);
+    Byte& operator<<=(const std::size_t n_pos);
     // Performs right shift on current `Byte` object with `n_pos` positions.
-    Byte& operator>>= (const std::size_t n_pos);
+    Byte& operator>>=(const std::size_t n_pos);
     // Performs Galois Field multiplication between two `Byte` objects.
-    const Byte operator* (Byte byte2);
+    const Byte operator*(const Byte byte) const;
     // Cheks if at least one bite is set to `1`.
     // Equivalent with `byte > 0`.
-    operator bool() const { return byte_.any(); };
+    const bool IsAnySet() const { return byte_.any(); };
+    const int ToInt() const { return byte_.to_ulong(); }
     inline const char ToAscii() const { return byte_.to_ulong(); }
     const std::string ToHex() const;
     inline const std::bitset<8> GetByte() const { return byte_; }
