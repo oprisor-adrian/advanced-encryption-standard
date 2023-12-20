@@ -2,15 +2,24 @@ cmake_minimum_required(VERSION 3.2)
 project(block-cipher)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
-set(PROJECT_SOURCES
+
+link_directories(${PROJECT_SOURCE_DIR}/external/byte_utils/lib)
+include_directories(${PROJECT_SOURCE_DIR}/external/byte_utils/include)
+
+add_executable(${CMAKE_PROJECT_NAME}
   main.cpp
+  src/aes.cpp
   src/aes_256.cpp
   src/byte_vector.cpp
 )
-add_executable(${CMAKE_PROJECT_NAME}
-  ${PROJECT_SOURCES}
-)
+
+target_link_libraries(${CMAKE_PROJECT_NAME} _byte_utils)
+
 add_library(${CMAKE_PROJECT_NAME}_lib
-  ${PROJECT_SOURCES}
+  src/aes.cpp
+  src/aes_256.cpp
+  src/byte_vector.cpp
 )
+
+enable_testing()
 add_subdirectory(${CMAKE_SOURCE_DIR}/test/)
