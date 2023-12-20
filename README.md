@@ -5,8 +5,8 @@ C++ implementation of the 256-bits Rijndael block cipher (the Advanced Encryptio
 ```
 input = "00112233445566778899aabbccddeeff";
 key = "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f";
-BlockCihper::AES256 aes256(input, key);
-output = aes256.Encrypt();
+BlockCihper::AES aes(key);
+output = aes256.Encrypt(input);
 ```
 
 #### Doc
