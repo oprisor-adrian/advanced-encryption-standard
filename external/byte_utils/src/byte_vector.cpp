@@ -1,4 +1,4 @@
-#include "../include/byte_vector.h"
+#include "byte_vector.h"
 
 #include <algorithm>
 #include <array>
@@ -6,7 +6,7 @@
 #include <stdexcept>
 #include <regex>
 
-#include "../include/word.h"
+#include "word.h"
 
 namespace ByteUtils {
 

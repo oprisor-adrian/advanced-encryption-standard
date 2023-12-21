@@ -1,4 +1,4 @@
-#include "../include/byte.h"
+#include "byte.h"
 
 #include <iomanip>
 #include <exception>

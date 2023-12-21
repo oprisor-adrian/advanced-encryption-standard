@@ -1,4 +1,4 @@
-#include "../include/word.h"
+#include "word.h"
 
 #include <sstream>
 #include <stdexcept>

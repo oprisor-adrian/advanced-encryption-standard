@@ -11,8 +11,10 @@ add_library(_${CMAKE_PROJECT_NAME} SHARED
   src/byte_vector.cpp
 )
 
+target_include_directories(_${CMAKE_PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/include)
+
 install(
-  TARGETS _${CMAKE_PROJECT_NAME} 
+  TARGETS _${CMAKE_PROJECT_NAME}
   LIBRARY DESTINATION lib
 )
 install(
