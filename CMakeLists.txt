@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
 
 link_directories(${PROJECT_SOURCE_DIR}/external/byte_utils/lib)
-include_directories(${PROJECT_SOURCE_DIR}/external/byte_utils/include)
+include_directories(${PROJECT_SOURCE_DIR}/external/byte_utils/lib/include)
 
 add_executable(${CMAKE_PROJECT_NAME}
   main.cpp
