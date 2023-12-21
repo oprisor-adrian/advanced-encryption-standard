@@ -16,24 +16,31 @@ namespace ByteUtils {
 //    ByteUtils::Word word1("ffffffff");
 //    ByteUtils::Word word2("0a0a0a0a");
 //    ByteUtils::Word result = word1 ^ word2;
+//    std::cout << result;
 class Word {
   public:
     Word() = default;
-    // Represents hexadecimal values to 32 bites.
+    // Initializes the `Word` object with 32 bits hexadecimal value.
     Word(const std::string& data);
-    // Initialize a word with an array of exact 4 bytes of data.
-    Word(const std::array<Byte, 4> data);
-    friend std::ostream& operator<<(std::ostream& stream, const Word data);
+    // Initializes the `Word` object with an array of 4 `Byte` objects.
+    Word(const std::array<Byte, 4>& word);
+    Word(const Word& other) = default;
+    Word(Word&& other) = default;
+    Word& operator=(const Word& other) = default;
+    Word& operator=(Word&& other) = default;
+    ~Word() = default;
+    // Prints the `Word` object as an array of bits.
+    friend std::ostream& operator<<(std::ostream& stream, const Word& data);
     // Performs the XOR operation between two `Word` objects.
-    const Word operator^(const Word word) const;
-    // Performs the XOR operation between `Word` and `Byte`.
-    const Word operator^(const Byte byte) const;
+    Word operator^(const Word& word) const;
+    // Performs the XOR operation between `Word` and `Byte` objects.
+    Word operator^(const Byte& byte) const;
     // Returns a byte from position `pos`.
-    const Byte operator[](const std::size_t pos) const;
-    // Acces the byte from the position `pos`.
+    Byte operator[](const std::size_t pos) const;
+    // Accesses the byte from the position `pos`.
     Byte& operator[](const std::size_t pos);
-    const std::string ToHex() const;
-    inline const std::array<Byte, 4> GetWord() const { return word_; }
+    std::string ToHex() const;
+    inline const std::array<Byte, 4>& GetWord() const { return word_; }
   private:
     std::array<Byte, 4> word_;
 };

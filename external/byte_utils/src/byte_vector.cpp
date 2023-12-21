@@ -20,7 +20,7 @@ ByteVector::ByteVector(const std::string& hex_string) {
   }
 }
 
-ByteVector::ByteVector(const std::vector<Byte> bytes): bytes_(bytes) {}
+ByteVector::ByteVector(const std::vector<Byte>& bytes): bytes_(bytes) {}
 
 std::ostream& operator<<(std::ostream& stream, const ByteVector& bytes) {
   for (const auto& byte : bytes.bytes_) {
@@ -29,7 +29,7 @@ std::ostream& operator<<(std::ostream& stream, const ByteVector& bytes) {
   return stream;
 }
 
-const Byte ByteVector::operator[](const std::size_t pos) const {
+Byte ByteVector::operator[](const std::size_t pos) const {
   if (pos >= bytes_.size() || pos < 0) {
     throw std::out_of_range("The position `pos` is out of range.");
   }
@@ -43,13 +43,13 @@ Byte& ByteVector::operator[](const std::size_t pos) {
   return bytes_[pos];
 }
 
-void ByteVector::PushBack(const Word word) {
+void ByteVector::PushBack(const Word& word) {
   for (const auto& byte : word.GetWord()) {
     bytes_.push_back(byte);
   }
 }
 
-const Word ByteVector::GetWord(const std::size_t pos) const {
+Word ByteVector::GetWord(const std::size_t pos) const {
   if (pos >= bytes_.size()/4 || pos < 0) {
     throw std::out_of_range("The position `pos` is out of range.");
   }
@@ -59,8 +59,8 @@ const Word ByteVector::GetWord(const std::size_t pos) const {
   return word;
 }
 
-const std::vector<Word> ByteVector::GetWord(const std::size_t pos,
-                                             const std::size_t count) {
+std::vector<Word> ByteVector::GetWord(const std::size_t pos,
+                                      const std::size_t count) const {
   std::vector<Word> words;
   for (std::size_t index = 0; index < count; index++) {
     words.push_back(GetWord(pos+index));
@@ -68,7 +68,7 @@ const std::vector<Word> ByteVector::GetWord(const std::size_t pos,
   return words;
 }
 
-const std::string ByteVector::ToHex() const {
+std::string ByteVector::ToHex() const {
   std::stringstream stream;
   for (const auto& byte : bytes_) {
     stream << byte.ToHex();

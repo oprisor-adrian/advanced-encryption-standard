@@ -6,12 +6,12 @@
 
 namespace ByteUtils {
 
-Byte::Byte(const std::bitset<8> byte): byte_(byte) {}
+Byte::Byte(const std::bitset<8>& byte): byte_(byte) {}
 
-Byte::Byte(std::uint8_t data): byte_(data) {}
+Byte::Byte(const std::uint8_t data): byte_(data) {}
 
 Byte::Byte(const std::string& data, const uint8_t base) {
-  if (base !=2 && base!=16) {
+  if (base != 2 && base != 16) {
     throw std::invalid_argument("Representation can be made only for binary "
                                 "or hexadecimal values.");
   }
@@ -23,33 +23,33 @@ Byte::Byte(const std::string& data, const uint8_t base) {
     throw std::invalid_argument("Given binary data can't be represented " 
                                 "in 1 byte.");
   }
-  std::uint8_t bites = std::stoul(data, nullptr, base);
-  byte_ = bites;
+  std::uint8_t bits = std::stoul(data, nullptr, base);
+  byte_ = bits;
 }
 
-std::ostream& operator<<(std::ostream& stream, const Byte data) {
+std::ostream& operator<<(std::ostream& stream, const Byte& data) {
   stream << data.GetByte();
   return stream;
 }
 
-const Byte Byte::operator&(const Byte data) const {
+Byte Byte::operator&(const Byte& data) const {
   return byte_ & data.byte_;
 }
 
-const Byte Byte::operator|(const Byte data) const {
+Byte Byte::operator|(const Byte& data) const {
   return byte_ | data.byte_;
 }
 
-const Byte Byte::operator^(const Byte data) const {
+Byte Byte::operator^(const Byte& data) const {
   return byte_ ^ data.byte_;
 }
 
-Byte& Byte::operator^=(const Byte data) {
+Byte& Byte::operator^=(const Byte& data) {
   byte_ ^= data.byte_;
   return *this;
 }
 
-const Byte Byte::operator<<(const std::size_t n_pos) const {
+Byte Byte::operator<<(const std::size_t n_pos) const {
   return byte_ << n_pos;
 }
 
@@ -63,7 +63,7 @@ Byte& Byte::operator>>=(const std::size_t n_pos) {
   return *this;
 }
 
-const Byte Byte::operator*(const Byte byte) const {
+Byte Byte::operator*(const Byte& byte) const {
   Byte result;
   Byte byte1(byte_);
   Byte byte2(byte);
@@ -87,7 +87,7 @@ const Byte Byte::operator*(const Byte byte) const {
   return result ;
 }
 
-const std::string Byte::ToHex() const {
+std::string Byte::ToHex() const {
   std::stringstream stream;
   stream << std::hex << std::setw(2) << std::setfill('0') << byte_.to_ulong();
   return stream.str();
