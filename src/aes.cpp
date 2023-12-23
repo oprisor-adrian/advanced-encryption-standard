@@ -4,7 +4,7 @@
 #include <iostream>
 #include <stdexcept>
 
-#include "../external/byte_utils/include/byte.h"
+#include "byte.h"
 
 namespace BlockCipher {
 

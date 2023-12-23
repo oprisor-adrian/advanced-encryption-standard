@@ -1,8 +1,8 @@
 #ifndef BLOCK_CIPHER_AES_H_
 #define BLOCK_CIPHER_AES_H_
 
-#include "../external/byte_utils/include/byte_vector.h"
-#include "../external/byte_utils/include/word.h"
+#include "byte_vector.h"
+#include "word.h"
 
 namespace BlockCipher {
 
