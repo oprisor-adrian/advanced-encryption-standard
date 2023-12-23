@@ -1,0 +1,3 @@
+[submodule "lib/byte_utils"]
+	path = lib/byte_utils
+	url = git@github.com:oprisor-adrian/byte-utilities.git
