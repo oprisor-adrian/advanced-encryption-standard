@@ -6,7 +6,7 @@
 
 #include "byte.h"
 
-namespace BlockCipher {
+namespace Cryptography {
 
 namespace {
 
@@ -152,4 +152,4 @@ ByteUtils::Word AES::RotWord(const ByteUtils::Word word) {
   return output;
 }
 
-}   // namespace BlockCipher
+}   // namespace Cryptography

@@ -4,7 +4,7 @@
 #include "byte_vector.h"
 #include "word.h"
 
-namespace BlockCipher {
+namespace Cryptography {
 
 class AES {
   public:
@@ -24,6 +24,6 @@ class AES {
     std::size_t rounds_;
 };
 
-}  // namespace BlockCipher
+}  // namespace Cryptography
 
 #endif  // BLOCK_CIPHER_AES_H_
