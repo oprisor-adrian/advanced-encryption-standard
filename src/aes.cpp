@@ -42,7 +42,7 @@ const ByteUtils::ByteVector n_multi("0203");
 
 AES::AES(const ByteUtils::ByteVector& key): key_(key) {
   // Checks the size of key.
-  switch (key.GetSize()) {
+  switch (key.Size()) {
     case 16:
       rounds_ = 10;
       key_wsize_ = 4;
@@ -87,7 +87,7 @@ void AES::AddRoundKey(const std::size_t round) {
 }
 
 void AES::SubByte() {
-  for(std::size_t index=0; index<state_.GetSize(); index++) {
+  for(std::size_t index=0; index<state_.Size(); index++) {
     state_[index] = s_box[state_[index].ToInt()];
   }
 }
@@ -139,7 +139,7 @@ void AES::KeyExpansion() {
 ByteUtils::Word AES::SubWord(const ByteUtils::Word word) {
   ByteUtils::Word output;
   for (std::size_t index = 0; index < 4; index++) {
-    output[index] = s_box[word[index].ToInt()];
+    output.PushBack(s_box[word[index].ToInt()]);
   }
   return output;
 }
