@@ -23,9 +23,10 @@ jobs:
       run: |
         git submodule update --init
         cd lib/byte_utils
-        mkdir build
+        sudo mkdir build
         cd build/
-        make install
+        cmake ..
+        sudo make install
 
     - name: Install GTest
       run: |
