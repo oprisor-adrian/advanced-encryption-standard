@@ -72,31 +72,31 @@ const ByteUtils::ByteVector& AES::Encrypt(const ByteUtils::ByteVector& plain) {
   }
   SubByte();
   ShiftCols();
-  AddRoundKey(14);
+  AddRoundKey(rounds_);
   return state_;
 }
 
 void AES::AddRoundKey(const std::size_t round) {
   std::vector<ByteUtils::Word> key_schedule = key_.GetWord(round*4, 4);
    // Add keys schedule to each column of the state.
-  for (std::size_t windex=0; windex<4; windex++) {
-    for (std::size_t bindex=0; bindex<4; bindex++) {
-      state_[windex*4+bindex] ^= key_schedule[windex][bindex];
+  for (std::size_t windex = 0; windex < 4; windex++) {
+    for (std::size_t bindex = 0; bindex < 4; bindex++) {
+      state_[windex * 4 + bindex] ^= key_schedule[windex][bindex];
     }
   }
 }
 
 void AES::SubByte() {
-  for(std::size_t index=0; index<state_.Size(); index++) {
+  for(std::size_t index = 0; index < state_.Size(); index++) {
     state_[index] = s_box[state_[index].ToInt()];
   }
 }
 
 void AES::ShiftCols() {
-  for (std::size_t cindex=1; cindex<4; cindex++) {
-    for (std::size_t index=0; index<cindex; index++) {
-      for (std::size_t rindex=0; rindex<3; rindex++) {
-        std::swap(state_[rindex*4+cindex], state_[(rindex+1)*4+cindex]);
+  for (std::size_t cindex = 1; cindex < 4; cindex++) {
+    for (std::size_t index = 0; index < cindex; index++) {
+      for (std::size_t rindex = 0; rindex < 3; rindex++) {
+        std::swap(state_[rindex * 4 + cindex], state_[(rindex + 1) * 4 + cindex]);
       }
     }
   }
@@ -105,30 +105,30 @@ void AES::ShiftCols() {
 void AES::MixColumns() {
   for (std::size_t index=  0; index < 4; index++) {
     ByteUtils::Word word = state_.GetWord(index);
-    state_[index*4] = (n_multi[0] * word[0]) ^
-                    (n_multi[1] * word[1]) ^ 
-                    word[2] ^ word[3];
-    state_[index*4+1] = word[0] ^
-                      (n_multi[0] * word[1]) ^
-                      (n_multi[1] * word[2]) ^
-                      word[3];
-    state_[index*4+2] = word[0] ^
-                      word[1] ^
-                      (n_multi[0] * word[2]) ^
-                      (n_multi[1] * word[3]);
-    state_[index*4+3] = (n_multi[1] * word[0]) ^
-                      word[1] ^ 
-                      word[2] ^
-                      (n_multi[0] * word[3]);
+    state_[index * 4] = (n_multi[0] * word[0]) ^
+                        (n_multi[1] * word[1]) ^ 
+                        word[2] ^ word[3];
+    state_[index * 4 + 1] = word[0] ^
+                            (n_multi[0] * word[1]) ^
+                            (n_multi[1] * word[2]) ^
+                            word[3];
+    state_[index * 4 + 2] = word[0] ^
+                            word[1] ^
+                            (n_multi[0] * word[2]) ^
+                            (n_multi[1] * word[3]);
+    state_[index * 4 + 3] = (n_multi[1] * word[0]) ^
+                            word[1] ^ 
+                            word[2] ^
+                            (n_multi[0] * word[3]);
   }
 }
 
 void AES::KeyExpansion() {
   ByteUtils::Word word;
-  for (std::size_t index = key_wsize_; index < 4*(rounds_+1); index++) {
+  for (std::size_t index = key_wsize_; index < 4 * (rounds_ + 1); index++) {
     word = key_.GetWord(index-1);
     if (index % key_wsize_ == 0) {
-      word = SubWord(RotWord(word)) ^ round_constant[index/key_wsize_-1];
+      word = SubWord(RotWord(word)) ^ round_constant[index / key_wsize_ - 1];
     } else if (key_wsize_ > 6 && index % key_wsize_ == 4) {
       word = SubWord(word);
     }
