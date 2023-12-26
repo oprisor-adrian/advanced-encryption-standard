@@ -24,8 +24,8 @@ jobs:
         git submodule update --init
         cd lib/byte_utils
         sudo mkdir build
+        sudo cmake -B build
         cd build/
-        cmake ..
         sudo make install
 
     - name: Install GTest
