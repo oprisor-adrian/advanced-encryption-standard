@@ -17,7 +17,15 @@ jobs:
     - name: Install dependecies
       run: |
         sudo apt update
-        sudo apt install cmake g++ -y
+        sudo apt install cmake git g++ -y
+
+    - name: Install byte_utils library
+      run: |
+        git submodule update --init
+        cd lib/byte_utils
+        mkdir build
+        cd build/
+        make install
 
     - name: Install GTest
       run: |
