@@ -17,7 +17,7 @@ jobs:
     - name: Install dependecies
       run: |
         sudo apt update
-        sudo apt install cmake git g++ -y
+        sudo apt install cmake wget g++ -y
         
     - name: Install GTest
       run: |
@@ -28,14 +28,13 @@ jobs:
         cd lib/
         sudo cp *.a /usr/lib
 
-    - name: Install byte_utils library
+    - name: Install ByteUtils library
       run: |
-        git submodule update --init
-        cd lib/byte_utils
-        sudo mkdir build
-        sudo cmake -B build
-        cd build/
-        sudo make install
+        wget https://github.com/oprisor-adrian/byte-utilities/archive/v1.1-alpha.tar.gz
+        tar -xzf v1.1-alpha.tar.gz
+        cd byte-utilities-1.1-alpha/
+        chmod +x install.sh
+        sudo ./install.sh
 
     - name: Create Build Directory
       run: mkdir build
