@@ -13,7 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <https://www.gnu.org/licenses/>.
-   
+  
   Contact: contact@dev-adrian.com
 ]]
 find_package(GTest REQUIRED)
@@ -24,6 +24,6 @@ add_executable(${CMAKE_PROJECT_NAME}_test
 target_link_libraries(${CMAKE_PROJECT_NAME}_test
   GTest::gtest_main
   _${CMAKE_PROJECT_NAME}
-  _byte_utils
+  ByteUtils
 )
 gtest_discover_tests(${CMAKE_PROJECT_NAME}_test)
