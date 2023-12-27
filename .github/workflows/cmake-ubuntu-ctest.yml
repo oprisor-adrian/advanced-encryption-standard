@@ -36,7 +36,7 @@ jobs:
         sudo cmake -S . -B build/
         cd build/
         sudo make install
-        export CMAKE_PREFIX_PATH="/usr/local/byte_utils/cmake:$CMAKE_PREFIX_PATH"
+        sudo echo 'export CMAKE_PREFIX_PATH="/usr/local/byte_utils/cmake:$CMAKE_PREFIX_PATH"' >> ~/.profile
 
     - name: Create Build Directory
       run: mkdir build
