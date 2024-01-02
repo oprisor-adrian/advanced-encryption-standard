@@ -38,6 +38,10 @@ class AES {
     // Returns encrypted `plain` text by applying the AES block cipher.
     const ByteUtils::ByteVector& Encrypt(const ByteUtils::ByteVector& plain,
                                          const ByteUtils::ByteVector& key);
+    // Returns decrypted `cipher` text by applying 
+    // the inverse of the AES block cipher.
+    const ByteUtils::ByteVector& Decrypt(const ByteUtils::ByteVector& cipher,
+                                          const ByteUtils::ByteVector& key);
   private:
     // Expands the key to generate a key schedule.
     void KeyExpansion();
@@ -49,10 +53,13 @@ class AES {
     void AddRoundKey(std::size_t round);
     // Substituts the bytes from the %state_ with values from `s-box`.
     void SubByte();
+    void InvSubByte();
     // Cyclically shifts the %state_ bytes over a different number of bytes.
     void ShiftCols();
+    void InvShiftCols();
     // Transforms the columns of the %state_ using polynomical multiplication.
     void MixColumns();
+    void InvMixColumns();
     // Initiate the number of round and the number of word for different
     // input key sizes.
     void InitVariable(std::size_t key_size);
