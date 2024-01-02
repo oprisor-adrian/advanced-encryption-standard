@@ -1,5 +1,5 @@
 /* 
-  Copyright (C) 2023 Oprișor Adrian-Ilie
+  Copyright (C) 2023-2024 Oprișor Adrian-Ilie
   
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -16,49 +16,58 @@
    
   Contact: contact@dev-adrian.com
 */
-#ifndef BLOCK_CIPHER_AES_H_
-#define BLOCK_CIPHER_AES_H_
+#ifndef AES_AES_H_
+#define AES_AES_H_
 
-#include "byte_vector.h"
-#include "word.h"
+#include <byte_vector.h>
+#include <word.h>
 
 namespace Cryptography {
 
-// The class `AES` provides an abstract implementation
-// of the Rijdael block cipher.
+// The `AES` class provides an implementation of the Rijdael block cipher.
 // Example:
 //    std::string key = "";
-//    Cryptography::AES aes(key);
 //    std::string plain_text = "";
-//    std::cout << aes.Encrypt(plain_text);
+//    Cryptography::AES aes;
+//    std::string cipher_text = aes.Encrypt(plain_text, key);
 class AES {
   public:
-    // Initializes the `AES` object with 128, 192 or 256 bits key.
-    AES(const ByteUtils::ByteVector& key);
+    AES() = default;
     // Returns encrypted `plain` text by applying the AES block cipher.
-    const ByteUtils::ByteVector& Encrypt(const ByteUtils::ByteVector& plain);
+    const ByteUtils::ByteVector& Encrypt(const ByteUtils::ByteVector& plain,
+                                         const ByteUtils::ByteVector& key);
+    // Returns decrypted `cipher` text by applying 
+    // the inverse of the AES block cipher.
+    const ByteUtils::ByteVector& Decrypt(const ByteUtils::ByteVector& cipher,
+                                         const ByteUtils::ByteVector& key);
   private:
     // Expands the key to generate a key schedule.
     void KeyExpansion();
     // Applies the `s-box` on a 4 byte `Word` object.
-    ByteUtils::Word SubWord(const ByteUtils::Word word);
+    ByteUtils::Word<32> SubWord(const ByteUtils::Word<32>& word);
     // Performs a cyclic permutation on a 4 byte `Word` object.
-    ByteUtils::Word RotWord(const ByteUtils::Word word);
-    // Adds a round key to the %state_. 
-    void AddRoundKey(const std::size_t round);
+    ByteUtils::Word<32> RotWord(const ByteUtils::Word<32>& word);
+    // Adds scheduled key to the %state_. 
+    void AddRoundKey(std::size_t round);
     // Substituts the bytes from the %state_ with values from `s-box`.
     void SubByte();
+    void InvSubByte();
     // Cyclically shifts the %state_ bytes over a different number of bytes.
     void ShiftCols();
+    void InvShiftCols();
     // Transforms the columns of the %state_ using polynomical multiplication.
     void MixColumns();
+    void InvMixColumns();
+    // Initiates the number of rounds and the number of words
+    // for different sizes of the input key.
+    void InitVariable(std::size_t key_size);
     ByteUtils::ByteVector key_;
     ByteUtils::ByteVector state_;
-    // Stores the nubers of words from the key.
-    std::size_t key_wsize_;
     std::size_t rounds_;
+    // Stores the numbers of words from the key.
+    std::size_t key_wsize_;
 };
 
 }  // namespace Cryptography
 
-#endif  // BLOCK_CIPHER_AES_H_
+#endif  // AES_AES_H_
