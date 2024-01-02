@@ -1,5 +1,5 @@
 #[[
-  Copyright (C) 2023 Oprișor Adrian-Ilie
+  Copyright (C) 2023-2024 Oprișor Adrian-Ilie
   
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -26,12 +26,8 @@ find_package(ByteUtils REQUIRED)
 add_library(_${CMAKE_PROJECT_NAME}
   src/aes.cpp
 )
-
-add_executable(${CMAKE_PROJECT_NAME}
-  main.cpp
-  src/aes.cpp
-)
-target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE ByteUtils)
+target_include_directories(_${CMAKE_PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/include/)
+target_link_libraries(_${CMAKE_PROJECT_NAME} PRIVATE ByteUtils)
 
 enable_testing()
 add_subdirectory(test/)

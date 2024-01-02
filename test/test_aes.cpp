@@ -1,5 +1,5 @@
 /* 
-  Copyright (C) 2023 Oprișor Adrian-Ilie
+  Copyright (C) 2023-2024 Oprișor Adrian-Ilie
   
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 #include <string>
 #include <vector>
 
-#include "../include/aes.h"
+#include "aes.h"
 
 struct TestCase {
   std::string key;
@@ -44,9 +44,9 @@ TEST(TestAes, TestEncrypt) {
      "8ea2b7ca516745bfeafc49904b496089"
     }
   };
+  Cryptography::AES aes;
   for (const auto& test : test_cases) {
-    Cryptography::AES aes(test.key);
-    std::string output = aes.Encrypt(test.plain_text).ToHex();
+    std::string output = aes.Encrypt(test.plain_text, test.key).ToHex();
     ASSERT_STREQ(output.c_str(), test.cipher_text.c_str());
   }
 }
