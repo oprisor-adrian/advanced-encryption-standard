@@ -16,7 +16,6 @@
   
   Contact: contact@dev-adrian.com
 ]]
-find_package(GTest REQUIRED)
 include(GoogleTest)
 add_executable(${CMAKE_PROJECT_NAME}_test
   test_aes.cpp

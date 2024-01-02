@@ -29,5 +29,10 @@ add_library(_${CMAKE_PROJECT_NAME}
 target_include_directories(_${CMAKE_PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/include/)
 target_link_libraries(_${CMAKE_PROJECT_NAME} PRIVATE ByteUtils)
 
-enable_testing()
-add_subdirectory(test/)
+find_package(GTest QUIET)
+if(GTest_FOUND)
+  enable_testing()
+  add_subdirectory(test/)
+else()
+  message(STATUS "GTest not found. Tests will be disabled.")
+endif()
