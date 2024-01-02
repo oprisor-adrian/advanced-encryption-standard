@@ -47,7 +47,7 @@ class AES {
     ByteUtils::Word<32> SubWord(const ByteUtils::Word<32>& word);
     // Performs a cyclic permutation on a 4 byte `Word` object.
     ByteUtils::Word<32> RotWord(const ByteUtils::Word<32>& word);
-    // Adds the `round` scheduled key to the %state_. 
+    // Adds scheduled key to the %state_. 
     void AddRoundKey(std::size_t round);
     // Substituts the bytes from the %state_ with values from `s-box`.
     void SubByte();
