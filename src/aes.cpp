@@ -20,7 +20,6 @@
 
 #include <algorithm>
 #include <array>
-#include <iostream>
 #include <stdexcept>
 
 #include <byte.h>
@@ -103,7 +102,6 @@ const ByteUtils::ByteVector& AES::Decrypt(const ByteUtils::ByteVector& cipher,
     InvSubByte();
     AddRoundKey(index);
     InvMixColumns();
-    std::cout << state_.ToHex() << std::endl;
   }
   InvShiftCols();
   InvSubByte();
