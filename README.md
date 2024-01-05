@@ -9,7 +9,7 @@ C++ implementation of the Rijndael block cipher.
 This approach isn't meant for production use. Be aware of bugs and security risks.
 
 ## Usage
-The AES block cipher implementation uses the `ByteUtils` library that is required to build and use the cipher. Please refer to the [byte-utilities repository](https://github.com/oprisor-adrian/byte-utilities.git) for more information about the library installation steps.
+The AES block cipher implementation uses the `ByteUtils` library which is required to build and use the cipher. Please refer to the [byte-utilities repository](https://github.com/oprisor-adrian/byte-utilities.git) for more information about the library installation steps.
 ```c++
 plain_text = "00112233445566778899aabbccddeeff";
 key = "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f";
